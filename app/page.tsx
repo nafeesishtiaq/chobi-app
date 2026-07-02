@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "./components/auth/AuthProvider";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 

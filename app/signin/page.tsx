@@ -1,9 +1,9 @@
-"use client"
-import { createClient } from "@/lib/supabase/client"
+"use client";
+import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import { useState } from "react";
-export default function SignInPage(){
-  
+
+export default function SignInPage() {
   const supabase = createClient();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,7 +20,11 @@ export default function SignInPage(){
   return (
     <div>
       <h1>Signin to Chobi</h1>
-      <button onClick={signInWithGoogle} disabled={isLoading} className="cursor-pointer">
+      <button
+        onClick={signInWithGoogle}
+        disabled={isLoading}
+        className="cursor-pointer"
+      >
         {isLoading ? (
           "Signing in..."
         ) : (
@@ -32,5 +36,4 @@ export default function SignInPage(){
       </button>
     </div>
   );
-  
 }
