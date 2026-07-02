@@ -22,17 +22,25 @@ export async function GET(request: Request) {
         data: { user },
       } = await supabase.auth.getUser();
 
-      // if (user) {
-      //   const { data: profile } = await supabase
-      //     .from("profiles")
-      //     .select("username")
-      //     .eq("id", user.id)
-      //     .single();
+      if (user) {
+        await supabase
+          .from("profiles")
+          .upsert(
+            { id: user.id },
+            { onConflict: "id", ignoreDuplicates: true }
+          );
 
-      //   if (!profile) {
-      //     return NextResponse.redirect(`${origin}/onboarding`);
-      //   }
-      // }
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("onboarding_complete")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (!profile?.onboarding_complete) {
+          return NextResponse.redirect(`${origin}/onboarding`);
+        }
+      }
+
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === "development";
       if (isLocalEnv) {
